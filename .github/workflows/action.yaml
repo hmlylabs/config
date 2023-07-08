@@ -5,21 +5,13 @@ on: [push, pull_request]
 jobs:
     build:
         runs-on: ubuntu-latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
             - uses: actions/checkout@v3
-            - id: 'auth'
-              uses: 'google-github-actions/auth@v1'
+            - uses: rymndhng/release-on-push-action@master
               with:
-                service_account:  '${{secrets.SERVICE_ACCOUNT}}'
-                token_format: 'access_token'
-                workload_identity_provider: ${{secrets.GCP_WORKLOAD_ID}}
-            
-            - uses: 'docker/login-action@v1'
-              with:
-                registry: '${{secrets.GCP_ARTIFACT_REGISTRY}}' # or REGION-docker.pkg.dev
-                username: 'oauth2accesstoken'
-                password: '${{ steps.auth.outputs.access_token }}'              
-            
+                bump_version_scheme: minor
             - name: Set up go
               uses: actions/setup-go@v4
               with:
