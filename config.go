@@ -1,9 +1,7 @@
 package config
 
 import (
-	"strings"
-
-	"github.com/spf13/viper"
+	"os"
 )
 
 type DatabaseConfig struct {
@@ -17,20 +15,26 @@ type DatabaseConfig struct {
 type Config struct {
 	ServerName string `mapstructure:"SERVER_NAME"`
 	Port       string `mapstructure:"SERVER_PORT"`
-	DbConfig   DatabaseConfig
+	Database   DatabaseConfig
 }
 
-func LoadConfig() (cfg Config, err error) {
-	viper.AutomaticEnv()
-
-	err = viper.ReadInConfig()
-
-	if err != nil {
-		return
+func New() *Config {
+	return &Config{
+		ServerName: getEnv("SERVER_NAME", "meal-server"),
+		Port:       getEnv("PORT", "8080"),
+		Database: DatabaseConfig{
+			Host:     getEnv("DB_HOST", "localhost"),
+			Port:     getEnv("DB_PORT", "5432"),
+			User:     getEnv("DB_USER", "meal_ad"),
+			Password: getEnv("DB_PASSWORD", "password"),
+			Name:     getEnv("DB_NAME", "meal_db"),
+		},
 	}
+}
 
-	for _, key := range viper.AllKeys() {
-		viper.BindEnv(key, strings.ReplaceAll(key, ".", "_"))
+func getEnv(key string, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
 	}
-	return
+	return defaultValue
 }
