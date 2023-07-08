@@ -30,13 +30,3 @@ jobs:
             
             - name: Test 
               run: go test -v ./...
-              
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
-
-            - name: Build and push Docker imahe
-              uses: docker/build-push-actions@v2
-              with:
-                context: .
-                push: true
-                tags: ${{secrets.GCP_API_ARTIFACT_REGISTRY}}/${{github.event.repository.name}}:latest
