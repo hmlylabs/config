@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"strings"
+
+	"github.com/spf13/viper"
+)
 
 type DatabaseConfig struct {
 	Port     string `mapstructure:"DB_PORT"`
@@ -25,6 +29,8 @@ func LoadConfig() (cfg Config, err error) {
 		return
 	}
 
-	err = viper.Unmarshal(&cfg)
+	for _, key := range viper.AllKeys() {
+		viper.BindEnv(key, strings.ReplaceAll(key, ".", "_"))
+	}
 	return
 }
