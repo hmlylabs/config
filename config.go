@@ -5,16 +5,16 @@ import (
 )
 
 type DatabaseConfig struct {
-	Port     string `mapstructure:"DB_PORT"`
-	Name     string `mapstructure:"DB_NAME"`
-	Host     string `mapstructure:"DB_HOST"`
-	User     string `mapstructure:"DB_USER"`
-	Password string `mapstructure:"DB_PASSWORD"`
+	Port     string
+	Name     string
+	Host     string
+	User     string
+	Password string
 }
 
 type Config struct {
-	ServerName string `mapstructure:"SERVER_NAME"`
-	Port       string `mapstructure:"SERVER_PORT"`
+	ServerName string
+	Port       string
 	Database   DatabaseConfig
 }
 
