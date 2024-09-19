@@ -1,4 +1,4 @@
-module github.com/hmly-tech/config
+module github.com/hmlylabs/config
 
 go 1.20
 
