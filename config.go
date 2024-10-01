@@ -18,6 +18,13 @@ type Config struct {
 	Database   DatabaseConfig
 }
 
+type SupabaseConfig struct {
+	ServerName string
+	Port       string
+	Url        string
+	Key        string
+}
+
 func New() *Config {
 	return &Config{
 		ServerName: getEnv("SERVER_NAME", "meal-server"),
@@ -30,6 +37,16 @@ func New() *Config {
 			Name:     getEnv("DB_NAME", "meal_db"),
 		},
 	}
+}
+
+func NewSupabase() *SupabaseConfig {
+	return &SupabaseConfig{
+		ServerName: getEnv("SERVER_NAME", "meal-server"),
+		Port:       getEnv("PORT", "8080"),
+		Url:        getEnv("SUPABASE_URL", ""),
+		Key:        getEnv("SUPABASE_KEY", ""),
+	}
+
 }
 
 func getEnv(key string, defaultValue string) string {
