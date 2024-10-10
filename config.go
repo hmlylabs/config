@@ -1,26 +1,24 @@
 package config
 
-import (
-	"github.com/spf13/viper"
-)
+import "os"
 
 type Config struct {
-	ServerName  string `mapstructure:"SERVER_NAME"`
-	Port        string `mapstructure:"PORT"`
-	DatabaseUrl string `mapstructure:"DATABASE_URL"`
+	ServerName  string
+	Port        string
+	DatabaseUrl string
 }
 
-func LoadConfig() (config Config, err error) {
-	viper.SetConfigName("app")
-	viper.SetConfigType("env")
-
-	viper.AutomaticEnv()
-
-	err = viper.ReadInConfig()
-	if err != nil {
-		return
+func New() *Config {
+	return &Config{
+		ServerName:  getEnv("SERVER_NAME", "server"),
+		Port:        getEnv("PORT", "8080"),
+		DatabaseUrl: getEnv("DatabaseUrl", "localhost"),
 	}
+}
 
-	err = viper.Unmarshal(&config)
-	return
+func getEnv(key string, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultValue
 }
