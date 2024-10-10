@@ -1,28 +1,26 @@
 package config
 
 import (
-	"os"
+	"github.com/spf13/viper"
 )
 
 type Config struct {
-	ServerName  string
-	Port        string
-	DatabaseUrl string
-	ShadowUrl   string
+	ServerName  string `mapstructure:"SERVER_NAME"`
+	Port        string `mapstructure:"PORT"`
+	DatabaseUrl string `mapstructure:"DATABASE_URL"`
 }
 
-func New() *Config {
-	return &Config{
-		ServerName:  getEnv("SERVER_NAME", "meal-server"),
-		Port:        getEnv("PORT", "8080"),
-		DatabaseUrl: getEnv("DATABASE_URL", "localhost:5432/postgres"),
-		ShadowUrl:   getEnv("SHADOW_URL", "localhost:5432/postgres"),
-	}
-}
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigType("env")
 
-func getEnv(key string, defaultValue string) string {
-	if value, exists := os.LookupEnv(key); exists {
-		return value
+	viper.AutomaticEnv()
+
+	err = viper.ReadInConfig()
+	if err != nil {
+		return
 	}
-	return defaultValue
+
+	err = viper.Unmarshal(&config)
+	return
 }
