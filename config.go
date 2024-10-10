@@ -12,7 +12,7 @@ func New() *Config {
 	return &Config{
 		ServerName:  getEnv("SERVER_NAME", "server"),
 		Port:        getEnv("PORT", "8080"),
-		DatabaseUrl: getEnv("DatabaseUrl", "localhost"),
+		DatabaseUrl: getEnv("DATABASE_URL", "localhost"),
 	}
 }
 
