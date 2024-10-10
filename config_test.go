@@ -16,7 +16,7 @@ func (s *TestSuite) TestCreateNewConfigSucceeds() {
 	os.Setenv("PORT", "80")
 	os.Setenv("DATABASE_URL", "postgres://database-url/5432")
 	os.Setenv("SHADOW_URL", "postgres://database-url/shadow-url/5432")
-	config, err := LoadConfig(".")
+	config, err := LoadConfig()
 	utils.AssertEqual(s.T(), nil, err)
 	utils.AssertEqual(s.T(), "config", config.ServerName)
 	utils.AssertEqual(s.T(), "80", config.Port)
@@ -25,6 +25,6 @@ func (s *TestSuite) TestCreateNewConfigSucceeds() {
 }
 
 func (s *TestSuite) TestCreateNewConfigFails() {
-	_, err := LoadConfig("")
+	_, err := LoadConfig()
 	s.NotNil(err)
 }
