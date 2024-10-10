@@ -10,9 +10,7 @@ type Config struct {
 	DatabaseUrl string `mapstructure:"DATABASE_URL"`
 }
 
-func LoadConfig(path string) (config Config, err error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigName("")
+func LoadConfig() (config Config, err error) {
 	viper.SetConfigType("env")
 
 	viper.AutomaticEnv()
