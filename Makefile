@@ -7,7 +7,7 @@ run:
 	@go run cmd/main.go
 
 test:
-	@go clean -testcache && go test ./... -v
+	@go clean -testcache && go test ./ -v
 
 docker-build:
 	@docker build . -t europe-west2-docker.pkg.dev/hmly-tech/api/${ARTIFACT_NAME}
